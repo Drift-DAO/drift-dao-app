@@ -28,7 +28,7 @@ const CreateProposal = () => {
 	const [heading, setHeading] = React.useState('');
 	const [desc, setDesc] = React.useState('');
 	const [options, setOptions] = React.useState(2);
-	const [optionChoices, setOptionChoices] = React.useState([]);
+	const [optionChoices, setOptionChoices] = React.useState<string[]>([]);
 
 	const createProposalButtonClicked = async () => {
 		setVisible(true);
@@ -57,7 +57,10 @@ const CreateProposal = () => {
 		setOptions(options - 1);
 	};
 
-	const changeOptionChoices = (idx, e) => {
+	const changeOptionChoices = (
+		idx: number,
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
 		let currChoices = optionChoices;
 		currChoices[idx] = e.target.value;
 		setOptionChoices((optionChoices) => currChoices);
@@ -131,8 +134,7 @@ const CreateProposal = () => {
 
 			let myOptions = [];
 			for (let i = 0; i < optionChoices.length; i++) {
-				let a = { value: i };
-				a.title = optionChoices[i];
+				let a = { value: i, title: optionChoices[i] };
 				myOptions.push(a);
 			}
 
@@ -238,7 +240,7 @@ const CreateProposal = () => {
 										width: '40vw',
 										borderColor: 'purple',
 									}}
-									rows="4"
+									rows={4}
 								/>
 							</div>
 							<div className="flex justify-center my-3">

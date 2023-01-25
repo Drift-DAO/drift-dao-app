@@ -1,13 +1,17 @@
 import React from 'react';
+// @ts-ignore
 import { Orbis } from '@orbisclub/orbis-sdk';
 import { Modal, Input, Row, Button, Loading } from '@nextui-org/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeValue } from '../../../redux/slices/refreshPageSlice';
 import Swal from 'sweetalert2';
+import { RootState } from '@/redux/store';
 
 let orbis = new Orbis();
 const CreateForumPost = () => {
-	const { leftSide, rightSide } = useSelector((state) => state.leftRight);
+	const { leftSide, rightSide } = useSelector(
+		(state: RootState) => state.leftRight
+	);
 	const myDispatch = useDispatch();
 
 	const [visible, setVisible] = React.useState(false);
@@ -106,7 +110,7 @@ const CreateForumPost = () => {
 									width: '40vw',
 									borderColor: 'purple',
 								}}
-								rows="9"
+								rows={9}
 							/>
 						</div>
 					</div>
@@ -116,7 +120,7 @@ const CreateForumPost = () => {
 						<div className="text-xl">cancel</div>
 					</Button>
 					<Button size="md" onPress={postBtnClicked} color="gradient">
-					{posting ? (
+						{posting ? (
 							<div className="text-xl">
 								<span className="mx-2">posting</span>
 								<Loading color="error" type="points-opacity" />

@@ -2,37 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '@nextui-org/react';
 import axios from 'axios';
 import Image from 'next/image';
+// @ts-ignore
 import { Orbis } from '@orbisclub/orbis-sdk';
 import moment from 'moment';
 
 let orbis = new Orbis();
-const ForumPostComponent = ({ post }) => {
+const ForumPostComponent = ({ post }: any) => {
 	const [reaction, setReaction] = useState('');
 	const [totalLikes, setTotalLikes] = useState(0);
 	const [totalDislikes, setTotalDislikes] = useState(0);
+	// @ts-ignore
 	const time = JSON.stringify(moment.unix(post.timestamp)._d);
 
-	const fetchReaction = async () => {
-		let res = await orbis.isConnected();
-		if (!res) {
-			await orbis.connect_v2({
-				provider: window.ethereum,
-				lit: false,
-			});
-		}
-		let { data, error } = await orbis.getReaction(post.stream_id, res.did);
-		if (data) {
-			setReaction(data.type);
-		} else {
-			setReaction('');
-		}
-	};
-
 	useEffect(() => {
+		const fetchReaction = async () => {
+			let res = await orbis.isConnected();
+			if (!res) {
+				await orbis.connect_v2({
+					provider: window.ethereum,
+					lit: false,
+				});
+			}
+			let { data, error } = await orbis.getReaction(post.stream_id, res.did);
+			if (data) {
+				setReaction(data.type);
+			} else {
+				setReaction('');
+			}
+		};
 		fetchReaction();
 		setTotalLikes(post.count_likes);
 		setTotalDislikes(post.count_downvotes);
-	}, []);
+	}, [post.count_likes, post.count_downvotes, post.stream_id]);
 
 	const likeThePost = async () => {
 		if (reaction === 'like') {

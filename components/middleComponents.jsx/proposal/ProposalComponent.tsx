@@ -14,10 +14,11 @@ import {
 	VocdoniSDKClient,
 	Vote,
 } from '@vocdoni/sdk';
+import { RootState } from '@/redux/store';
 
-const ProposalComponent = ({ prp }) => {
+const ProposalComponent = ({ prp }: any) => {
 	const [userHasVoted, setUserHasVoted] = useState(-1);
-	const userAddr = useSelector((state) => state.addr.myAddress);
+	const userAddr = useSelector((state: RootState) => state.addr.myAddress);
 
 	const myDispatch = useDispatch();
 
@@ -30,10 +31,10 @@ const ProposalComponent = ({ prp }) => {
 			.catch((e) => {
 				console.log('error occurred', e);
 			});
-	}, []);
+	}, [prp._id, userAddr]);
 
 	const isProposalOver = prp._finalResults;
-	const voteOnProposal = async (i) => {
+	const voteOnProposal = async (i: number) => {
 		try {
 			let provider = new ethers.providers.Web3Provider(window.ethereum);
 			await provider.send('eth_requestAccounts', []);
