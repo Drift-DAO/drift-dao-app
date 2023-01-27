@@ -15,7 +15,7 @@ let orbis = new Orbis();
 const Home = () => {
 	const myDispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
-	
+
 	const connectWithWallet = async () => {
 		setLoading(true);
 		try {
@@ -31,14 +31,14 @@ const Home = () => {
 					lit: false,
 				});
 			}
-			const client = new VocdoniSDKClient({
-				env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
-				wallet: signer, // optional, the signer used (Metamask, Walletconnect)
-			});
-			const info = await client.createAccount();
-			if (info.balance === 0) {
-				await client.collectFaucetTokens();
-			}
+			// const client = new VocdoniSDKClient({
+			// 	env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
+			// 	wallet: signer, // optional, the signer used (Metamask, Walletconnect)
+			// });
+			// const info = await client.createAccount();
+			// if (info.balance === 0) {
+			// 	await client.collectFaucetTokens();
+			// }
 			myDispatch(changeAddr(userAddress));
 		} catch (err) {
 			console.log('an error occurred: ', err);
