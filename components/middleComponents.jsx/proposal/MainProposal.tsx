@@ -6,21 +6,15 @@ import ProposalComponent from './ProposalComponent';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { ethers } from 'ethers';
-import {
-	Election,
-	EnvOptions,
-	PlainCensus,
-	PublishedElection,
-	VocdoniSDKClient,
-	Vote,
-} from '@vocdoni/sdk';
+
 import { RootState } from '@/redux/store';
 
 const MainProposal = () => {
-	const leftSide = useSelector((state :RootState) => state.leftRight.leftSide);
-	const dao_id = useSelector((state :RootState) => state.leftRight.dao_id);
-	const value = useSelector((state :RootState) => state.refreshPage.value);
-	const [allProposals, setAllProposals] = useState([] as PublishedElection[]);
+	const leftSide = useSelector((state: RootState) => state.leftRight.leftSide);
+	const dao_id = useSelector((state: RootState) => state.leftRight.dao_id);
+	const value = useSelector((state: RootState) => state.refreshPage.value);
+	// const [allProposals, setAllProposals] = useState([] as PublishedElection[]);
+	const [allProposals, setAllProposals] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -32,21 +26,21 @@ const MainProposal = () => {
 					let provider = new ethers.providers.Web3Provider(window.ethereum);
 					await provider.send('eth_requestAccounts', []);
 					let signer = provider.getSigner();
-	
-					const client = new VocdoniSDKClient({
-						env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
-						wallet: signer, // optional, the signer used (Metamask, Walletconnect)
-					});
-	
-					await client.createAccount();
-	
-					let myProposalArray = [];
-					for (let i = res.data.length - 1; i >= 0; i--) {
-						// console.log('election id: ', res.data[i].electionId);
-						const myElection = await client.fetchElection(res.data[i].electionId);
-						myProposalArray.push(myElection);
-					}
-					setAllProposals(myProposalArray);
+
+					// const client = new VocdoniSDKClient({
+					// 	env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
+					// 	wallet: signer, // optional, the signer used (Metamask, Walletconnect)
+					// });
+
+					// await client.createAccount();
+
+					// let myProposalArray = [];
+					// for (let i = res.data.length - 1; i >= 0; i--) {
+					// 	// console.log('election id: ', res.data[i].electionId);
+					// 	const myElection = await client.fetchElection(res.data[i].electionId);
+					// 	myProposalArray.push(myElection);
+					// }
+					// setAllProposals(myProposalArray);
 					setLoading(false);
 					// console.log('my proposal array is: ', myProposalArray);
 				})
@@ -55,11 +49,10 @@ const MainProposal = () => {
 					setLoading(false);
 				});
 		};
-	
+
 		fetchAllProposals();
 	}, [leftSide, value, dao_id]);
 
-	
 	return (
 		<div>
 			<div style={{ height: '80vh' }} className="py-2 overflow-hidden">

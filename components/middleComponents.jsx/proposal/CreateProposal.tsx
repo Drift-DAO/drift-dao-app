@@ -6,14 +6,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import Image from 'next/image';
 import { ethers } from 'ethers';
-import {
-	Election,
-	EnvOptions,
-	PlainCensus,
-	PublishedElection,
-	VocdoniSDKClient,
-	Vote,
-} from '@vocdoni/sdk';
+
 import { RootState } from '@/redux/store';
 
 const CreateProposal = () => {
@@ -99,52 +92,53 @@ const CreateProposal = () => {
 			let provider = new ethers.providers.Web3Provider(window.ethereum);
 			await provider.send('eth_requestAccounts', []);
 			let signer = provider.getSigner();
+			return;
 
-			const client = new VocdoniSDKClient({
-				env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
-				wallet: signer, // optional, the signer used (Metamask, Walletconnect)
-			});
-			const info = await client.createAccount();
-			if (info.balance === 0) {
-				await client.collectFaucetTokens();
-			}
+			// const client = new VocdoniSDKClient({
+			// 	env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
+			// 	wallet: signer, // optional, the signer used (Metamask, Walletconnect)
+			// });
+			// const info = await client.createAccount();
+			// if (info.balance === 0) {
+			// 	await client.collectFaucetTokens();
+			// }
 
-			const res = await axios.get(
-				`https://www.backend.drift-dao.com/DAO/allMembers/${dao_id}`
-			);
+			// const res = await axios.get(
+			// 	`https://www.backend.drift-dao.com/DAO/allMembers/${dao_id}`
+			// );
 
-			const census = new PlainCensus();
+			// const census = new PlainCensus();
 
-			for (let m = 0; m < res.data.length; m++) {
-				// console.log("address is: ",res.data[m].userAddr )
-				census.add(res.data[m].userAddr);
-			}
+			// for (let m = 0; m < res.data.length; m++) {
+			// 	// console.log("address is: ",res.data[m].userAddr )
+			// 	census.add(res.data[m].userAddr);
+			// }
 
-			const endDate = new Date();
-			endDate.setMinutes(endDate.getMinutes() + 5);
+			// const endDate = new Date();
+			// endDate.setMinutes(endDate.getMinutes() + 5);
 
-			const election = Election.from({
-				title: 'Election title',
-				description: 'Election description',
-				header: 'https://source.unsplash.com/random',
-				streamUri: 'https://source.unsplash.com/random',
-				endDate: endDate.getTime(),
-				census,
-			});
+			// const election = Election.from({
+			// 	title: 'Election title',
+			// 	description: 'Election description',
+			// 	header: 'https://source.unsplash.com/random',
+			// 	streamUri: 'https://source.unsplash.com/random',
+			// 	endDate: endDate.getTime(),
+			// 	census,
+			// });
 
-			let myOptions = [];
-			for (let i = 0; i < optionChoices.length; i++) {
-				let a = { value: i, title: optionChoices[i] };
-				myOptions.push(a);
-			}
+			// let myOptions = [];
+			// for (let i = 0; i < optionChoices.length; i++) {
+			// 	let a = { value: i, title: optionChoices[i] };
+			// 	myOptions.push(a);
+			// }
 
-			// add questions
-			election.addQuestion(heading, desc, myOptions);
-			const electionId = await client.createElection(election);
+			// // add questions
+			// election.addQuestion(heading, desc, myOptions);
+			// const electionId = await client.createElection(election);
 			axios
 				.post('https://www.backend.drift-dao.com/voting', {
 					dao_id,
-					electionId,
+					electionId:"",
 				})
 				.then((res) => {
 					setHeading('');

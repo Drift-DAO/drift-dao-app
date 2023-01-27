@@ -6,14 +6,7 @@ import { ethers } from 'ethers';
 import swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeValue } from '../../../redux/slices/refreshPageSlice';
-import {
-	Election,
-	EnvOptions,
-	PlainCensus,
-	PublishedElection,
-	VocdoniSDKClient,
-	Vote,
-} from '@vocdoni/sdk';
+
 import { RootState } from '@/redux/store';
 
 const ProposalComponent = ({ prp }: any) => {
@@ -39,30 +32,30 @@ const ProposalComponent = ({ prp }: any) => {
 			let provider = new ethers.providers.Web3Provider(window.ethereum);
 			await provider.send('eth_requestAccounts', []);
 			let signer = provider.getSigner();
-			const client = new VocdoniSDKClient({
-				env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
-				wallet: signer, // optional, the signer used (Metamask, Walletconnect)
-			});
-			await client.createAccount();
+			// const client = new VocdoniSDKClient({
+			// 	env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
+			// 	wallet: signer, // optional, the signer used (Metamask, Walletconnect)
+			// });
+			// await client.createAccount();
 
-			await client.setElectionId(prp._id);
-			const vote = new Vote([i]);
-			const voteId = await client.submitVote(vote);
-			axios
-				.post(`https://www.backend.drift-dao.com/voting/vote`, {
-					userAddr: userAddr,
-					electionId: prp._id,
-					option: i,
-				})
-				.then((res) => {
-					myDispatch(changeValue());
-					swal.fire('Voted🥳', 'Voted successfully in the proposal', 'success');
-				})
-				.catch((e) => {
-					myDispatch(changeValue());
-					console.log('error is: ', e);
-					swal.fire('Error😵‍💫', 'An unexpected error occurred', 'error');
-				});
+			// await client.setElectionId(prp._id);
+			// const vote = new Vote([i]);
+			// const voteId = await client.submitVote(vote);
+			// axios
+			// .post(`https://www.backend.drift-dao.com/voting/vote`, {
+			// 	userAddr: userAddr,
+			// 	electionId: prp._id,
+			// 	option: i,
+			// })
+			// .then((res) => {
+			// 	myDispatch(changeValue());
+			// 	swal.fire('Voted🥳', 'Voted successfully in the proposal', 'success');
+			// })
+			// .catch((e) => {
+			// 	myDispatch(changeValue());
+			// 	console.log('error is: ', e);
+			// 	swal.fire('Error😵‍💫', 'An unexpected error occurred', 'error');
+			// });
 		} catch (err) {
 			console.log('error is: ', err);
 			swal.fire('Error😵‍💫', 'An unexpected error occurred', 'error');

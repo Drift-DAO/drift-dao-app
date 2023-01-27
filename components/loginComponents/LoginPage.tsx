@@ -9,7 +9,6 @@ import { Orbis } from '@orbisclub/orbis-sdk';
 import { useDispatch } from 'react-redux';
 import { changeAddr } from '../../redux/slices/addrSlice';
 import Swal from 'sweetalert2';
-import { EnvOptions, VocdoniSDKClient } from '@vocdoni/sdk';
 
 let orbis = new Orbis();
 const Home = () => {
@@ -31,14 +30,7 @@ const Home = () => {
 					lit: false,
 				});
 			}
-			// const client = new VocdoniSDKClient({
-			// 	env: EnvOptions.STG, // mandatory, can be 'dev' or 'prod'
-			// 	wallet: signer, // optional, the signer used (Metamask, Walletconnect)
-			// });
-			// const info = await client.createAccount();
-			// if (info.balance === 0) {
-			// 	await client.collectFaucetTokens();
-			// }
+
 			myDispatch(changeAddr(userAddress));
 		} catch (err) {
 			console.log('an error occurred: ', err);
