@@ -72,6 +72,9 @@ const HomeRight = () => {
 				`https://www.backend.drift-dao.com/DAO?name=${DAOName}&userAddr=${userAddr}`
 			)
 			.then((res) => {
+				console.log('dao name is: ', DAOName);
+				console.log('user addr is: ', userAddr);
+				console.log('result is: ', res);
 				if (res.data === 'no dao found') {
 					setVisibleError(true);
 				} else {
@@ -86,6 +89,7 @@ const HomeRight = () => {
 				setVisibleError(true);
 			});
 	};
+
 	return (
 		<div className=" justify-around mx-1">
 			<div className="flex justify-around mt-10 text-black">
@@ -160,7 +164,7 @@ const HomeRight = () => {
 						<div className="flex justify-center mb-2">
 							<Avatar
 								size="xl"
-								src={DAOData.result.dao_logo}
+								src={DAOData?.result?.dao_logo}
 								color="primary"
 								bordered
 								squared
@@ -168,10 +172,12 @@ const HomeRight = () => {
 						</div>
 						<div className="my-4">
 							<div className="font-bold">DAO name:</div>
-							<div className="text-blue-500"> {DAOData.result.dao_name}</div>
+							<div className="text-blue-500"> {DAOData?.result?.dao_name}</div>
 						</div>
 						<div className="font-bold">DAO description:</div>{' '}
-						<div className="text-blue-500">{DAOData.result.dao_short_desc}</div>
+						<div className="text-blue-500">
+							{DAOData?.result?.dao_short_desc}
+						</div>
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
